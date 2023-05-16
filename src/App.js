@@ -10,6 +10,7 @@ function App() {
   ])
 
   const [newTask, setNewTask] = useState("")
+  const [isHighPriority, setIsHighPriority] = useState(false)
 
   const completeTask = (taskId) => {
     const newTasks = tasks.filter((task) => task.id !== taskId)
@@ -20,6 +21,7 @@ function App() {
     return(
       <li key={task.id}>
         {task.name}
+        <p>Priority: { task.highPriority ? "High" : "Low" }</p>
         <button onClick={() => completeTask(task.id)}>Task Complete?</button>
       </li>
     )
@@ -29,10 +31,12 @@ function App() {
     setNewTask(event.target.value)
   }
 
+
+
   const saveNewTask = (event) => {
     event.preventDefault()
     if (newTask !== "") {
-      const newTaskObj = { id: Date.now(), name: newTask, highPriority: false}
+      const newTaskObj = { id: Date.now(), name: newTask}
       const nextTasks = [...tasks, newTaskObj]
       setTasks(nextTasks)
 
@@ -50,7 +54,7 @@ function App() {
         <label htmlFor="new-task">Add new task: </label>
         <input id="new-task" type="text" value={newTask} onChange={handleTaskInput}/>
         <label htmlFor="high-priority">High Priority?</label>
-        <input type="checkbox"></input>
+        <input type="checkbox" checked={isHighPriority} onChange={event => setIsHighPriority(event.target.checked)}></input>
         <input type="submit" value="Save new task"/>
       </form>
 
